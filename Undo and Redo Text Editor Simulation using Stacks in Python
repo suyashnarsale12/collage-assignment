@@ -1,0 +1,63 @@
+undo_stack = []
+redo_stack = []
+
+
+def make_change():
+    text = input("Enter the text: ")
+    undo_stack.append(text)
+    redo_stack.clear()
+    print(f"Added: {text}")
+    current_details()
+
+
+def undo_action():
+    if undo_stack:
+        x = undo_stack.pop()
+        redo_stack.append(x)
+        print(f"Undo: Removed '{x}'")
+    else:
+        print("No undo action possible.")
+    current_details()
+
+
+def redo_action():
+    if redo_stack:
+        x = redo_stack.pop()
+        undo_stack.append(x)
+        print(f"Redo: Restored '{x}'")
+    else:
+        print("No redo action possible.")
+    current_details()
+
+
+def current_details():
+    print("\n--- Current Details ---")
+    print("Undo Stack (Current Text):", " ".join(undo_stack) if undo_stack else "[empty]")
+    print("Redo Stack:", " ".join(redo_stack) if redo_stack else "[empty]")
+    print("------------------------\n")
+
+
+# Menu-driven system
+while True:
+    print("--- Enter your choice ---")
+    print("1. Perform make change")
+    print("2. Perform undo action")
+    print("3. Perform redo action")
+    print("4. Display current details")
+    print("5. Exit")
+    choice = int(input("Enter the choice: "))
+
+    match choice:
+        case 1:
+            make_change()
+        case 2:
+            undo_action()
+        case 3:
+            redo_action()
+        case 4:
+            current_details()
+        case 5:
+            print("Exiting Undo-Redo System.")
+            break
+        case _:
+            print("Invalid choice, please enter between 1-5.")
